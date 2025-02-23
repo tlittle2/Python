@@ -1,0 +1,16 @@
+In order to find the open port with the secret message, I performed the following process:
+
+1. Started the docker program provided by Professor Drawert
+
+2. I then ran my port-scan.py program and saw that the docker program ran on the ip 152.18.69.107
+	a. I then changed my host variable in port-scan.py program to that host ip. 
+	b. I also kept changed my port range until a connected port was found after finding out that 
+		none of the ports in the range 1-1023 yielded a message.
+
+3. Upon finding this port, I 
+	a. ran the command docker run -it briandrawert/csci_security_spy_lab and input the port 1234
+	b. Simulatenously, I ran wireshark to have a capture filter of murphy.cs.unca.edu, and set the display filter for ip.dst == 152.18.69.107 || ip.src == 152.18.69.107
+		i. This basically says while looking at murphy.cs.unca.edu, look at the source and destination ports that are for this ip address, which happens to be the ip address for murphy.cs.unca.edu
+	c. In the 10th packet that I captured, the message was intercepted and said the following:
+		i. Message 1: From: Dr. Evil Message: Let's just do what we always do. Hijack some nuclear weapons and hold the world hostage. Yeah? Good! Gentlemen, it has come to my attention that a breakaway Russian Republic called Kreplachistan will be transferring a nuclear warhead to the United Nations in a few days. Here's the plan. We get the warhead and we hold the world ransom for... ONE MILLION DOLLARS!
+
