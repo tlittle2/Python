@@ -2,13 +2,12 @@ from collections import defaultdict
 def main():
     likes = {}
     birthdays = defaultdict(list)
-
-    #birthday dict will group everyone who has the same birthday. likes will just be a dict of a person's likeness score
+    
     for i in range(int(input())):
         name, like, birthday = input().split()
      
-        birthdays[birthday].append(name)
-        likes[name] = int(like)
+        birthdays[birthday].append(name) #birthday dict will group everyone who has the same birthday.
+        likes[name] = int(like) #likes will just be a dict of a person's likeness score
 
         
     ans = []
