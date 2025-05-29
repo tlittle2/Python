@@ -1,6 +1,3 @@
-#!/usr/bin/env python3
-
-
 import sys
 
 def runE(w):
@@ -30,9 +27,6 @@ def main():
         runE(word)
     else:
         runD(word)
-
-
-
 
 if __name__ == "__main__":
     main()
