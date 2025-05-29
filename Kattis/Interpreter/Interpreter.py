@@ -55,7 +55,6 @@ def function9(s, a):
 
 j=0  
 for i in sys.stdin:
-    
     if i == "\n":
         break
     RAM[j]=int(i)
@@ -66,11 +65,9 @@ steps=0
 for i in range(0,10001):
     steps+=1
     
-    
     num2= RAM[pointer] % 10
     num1= (RAM[pointer] // 10) % 10
     operation= RAM[pointer] // 100 
-
 
     if operation== 1:
         if function1(num1, num2):
