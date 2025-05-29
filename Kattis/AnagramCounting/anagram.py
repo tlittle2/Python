@@ -1,8 +1,5 @@
-#/usr/bin/env
-
 import math
 import sys
-
 
 def main():
     # Establish the factorials we need
@@ -32,13 +29,9 @@ def main():
         print(answer)
 
         # we have to do this step because the number can change as you go through the string if you have duplicates string sequences
-            # Because we only want to count a string sequence once, we want to take away the amount of duplicates we could get for 
-            #       a possible string sequence
+            # Because we only want to count a string sequence once, we want to take away the amount of duplicates we could get for a possible string sequence
             # By doing answer = answer // factorials[d[i]] we bypass duplication by getting the same answer without stopping
             # we don't want to stop because there could be strings later on down the line that need to be accounted for
-
-
-
 
 if __name__ == "__main__":
     main()
