@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-
-
 def main():
     n,m = input().split()
 
@@ -18,9 +16,6 @@ def main():
             print("Dr. Chaz needs {} more piece of chicken!".format(n-m))
         else:
             print("Dr. Chaz needs {} more pieces of chicken!".format(n-m))
-
-
-
 
 if __name__ == "__main__":
     main()
