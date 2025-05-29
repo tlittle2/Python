@@ -1,9 +1,5 @@
-#!/usr/bin/env python3
 def main():
-    n,m = input().split()
-
-    n = int(n)
-    m = int(m)
+    n,m = map(int, input().split())
     
     if n < m:
         if m -n == 1:
