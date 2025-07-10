@@ -1,11 +1,10 @@
 def main():
-    seats, groups = map(int, input().split())
+    seats, _ = map(int, input().split())
 
     g = [int(i) for i in input().split()]
 
-    s = 0
+    idx = s = 0
 
-    idx = 0
     for i in range(len(g)):
         if s+g[i] > seats:
             idx = i
