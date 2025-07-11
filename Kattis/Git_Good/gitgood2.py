@@ -1,4 +1,3 @@
-#accepted, but all test cases are not passed
 def main():
     d = {}
     curr_dir_files= set()
@@ -9,7 +8,7 @@ def main():
         curr_dir_files.clear()
 
     for _ in range(int(input())):
-        #print(curr_dir)
+        print(curr_dir_files)
         ip = input().split(" ")
         if ip[0] == 'cd':
             unload()
@@ -18,6 +17,8 @@ def main():
             curr_dir_files.add(ip[1])
 
     unload()
+
+    #print(d)
 
     newD = dict(filter(lambda item: len(item[1]) > 0, d.items()))
     #print(newD)
