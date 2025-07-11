@@ -1,21 +1,21 @@
 #Accepted, but not all cases pass
 def main():
     d = {}
-    curr_dir= set()
+    curr_dir_files= set()
+    cur_dir_name = ""
 
     def unload():
-        d[cur_dir] = [i for i in curr_dir]
-        curr_dir.clear()
+        d[cur_dir_name] = [i for i in curr_dir_files]
+        curr_dir_files.clear()
 
-    cur_dir = ""
     for _ in range(int(input())):
         #print(curr_dir)
         ip = input().split(" ")
         if ip[0] == 'cd':
             unload()
-            cur_dir = ip[1]
+            cur_dir_name = ip[1]
         else:
-            curr_dir.add(ip[1])
+            curr_dir_files.add(ip[1])
 
     unload()
 
