@@ -1,21 +1,21 @@
 #Accepted, but not all cases pass
 def main():
     d = {}
-    stk =[]
+    curr_dir= set()
 
     def unload():
-        d[cur_dir] = set([i for i in stk])
-        stk.clear()
+        d[cur_dir] = [i for i in curr_dir]
+        curr_dir.clear()
 
     cur_dir = ""
     for _ in range(int(input())):
-        #print(stk)
+        #print(curr_dir)
         ip = input().split(" ")
         if ip[0] == 'cd':
             unload()
             cur_dir = ip[1]
         else:
-            stk.append(ip[1])
+            curr_dir.add(ip[1])
 
     unload()
 
@@ -28,7 +28,6 @@ def main():
 
     print("git commit")
     print("git push")
-
 
 if __name__ == "__main__":
     main()
