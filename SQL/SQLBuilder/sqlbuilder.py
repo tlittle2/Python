@@ -129,7 +129,8 @@ def main():
 
     sql.setJoin("salary_data b", "a.case_num = b.case_num", sql.inner_join)
     sql.setJoin2(["salary_data c", "a.case_num = c.case_num", sql.left_outer_join])
-    print(sql.getSql(includeWhere= True, includeJoin=True))
+
+    print(sql.getSql(includeWhere= True))
 
 if __name__ == "__main__":
     main()
