@@ -27,13 +27,13 @@ class SqlBuilder:
         self.p_orderby = []
         self.p_join = []
 
-    def addParentheses(self, s: str):
+    def addParentheses(self, s: str) -> str:
         return f"({s})"
 
     def add(self, collection: list, s: str):
         collection.append(s)
 
-    def get(self, collection: list, sep: str):
+    def get(self, collection: list, sep: str) -> str:
         return sep.join(collection)
         
     def setSelect(self, s: str):
@@ -43,7 +43,7 @@ class SqlBuilder:
         for i in c:
             self.setSelect(i)
     
-    def getSelect(self, sep: str = comma):
+    def getSelect(self, sep: str = comma) -> str:
         return "select {}".format(self.get(self.p_select, sep))
     
     def setFrom(self, s: str):
@@ -53,7 +53,7 @@ class SqlBuilder:
         for i in c:
             self.setFrom(i)
 
-    def getFrom(self):
+    def getFrom(self) -> str:
         return "from {}".format(self.get(self.p_from, self.comma))
     
     def setWhere(self, s: str, sep: str = space):
@@ -65,7 +65,7 @@ class SqlBuilder:
         for i in c:
             self.setWhere(self.addParentheses(i), sep)
 
-    def getWhere(self):
+    def getWhere(self) -> str:
         return "where {} ".format(self.get(self.p_where, self.space))
     
     def setGroupBy(self, s: str):
@@ -75,7 +75,7 @@ class SqlBuilder:
         for i in c:
             self.setGroupBy(i)
     
-    def getGroupBy(self):
+    def getGroupBy(self)-> str:
         return "group by {} ".format(self.get(self.p_groupby, self.comma)) 
 
     def setOrderBy(self, s: str):
@@ -85,7 +85,7 @@ class SqlBuilder:
         for i in c:
             self.setOrderBy(i)
 
-    def getOrderBy(self):
+    def getOrderBy(self) -> str:
         return "order by {} ".format(self.get(self.p_orderby, self.comma))
     
     def setJoin(self, table: str, on: str, joinType: str):
@@ -103,7 +103,7 @@ class SqlBuilder:
         return s
 
     
-    def getSql(self, includeWhere: bool = False, includeGroupBy: bool = False, includeOrderBy: bool = False, includeJoin: bool = False):
+    def getSql(self, includeWhere: bool = False, includeGroupBy: bool = False, includeOrderBy: bool = False, includeJoin: bool = False) -> str:
         assert(len(self.p_select) > 0 and len(self.p_from) > 0)
         def eval(clause: list, b: bool):
             if(len(clause) > 0 and b):
@@ -119,18 +119,6 @@ class SqlBuilder:
                               , self.getGroupBy() if eval(self.p_groupby, includeGroupBy) else blank
                               , self.getOrderBy() if eval(self.p_orderby, includeOrderBy) else blank
                               )
-    
-
-def generateAccessMethods(c: list):
-    s = ""
-    for i in c:
-        s += f"def get_{i.lower()}() -> str:"
-        s += ("\n")
-        s += (f"    return \"{i}\"")
-        s += ("\n")
-    
-    return s
-
 
 def main():
     sql = SqlBuilder()
