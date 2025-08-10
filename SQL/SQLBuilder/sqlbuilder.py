@@ -51,12 +51,12 @@ class SqlBuilder:
     
     def setWhere(self, s: str, sep: str = space):
         assert(sep in [self.p_and, self.p_or, self.p_in, self.space])
-        self.add(self.p_where, self.addParentheses(s))
+        self.add(self.p_where, self.addParentheses(s) + " " + sep)
 
     def setWhere2(self, c: list, sep: str = space):
         assert(sep in [self.p_and, self.p_or, self.p_in, self.space])
         for i in c:
-            self.setWhere(self.addParentheses(i))
+            self.setWhere(self.addParentheses(i), sep)
 
     def getWhere(self):
         return "where {} ".format(self.get(self.p_where, self.space))
