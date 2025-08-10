@@ -4,12 +4,18 @@ class SqlBuilder:
     p_where = []
     p_groupby= []
     p_orderby = []
+    p_join = []
 
-    p_and = " and "
-    p_or = " or "
-    p_in = " in "
-    p_select_all = "*"
+    inner_join = "inner join"
+    left_outer_join = "left outer join"
+    right_outer_join = "right outer join"
+    full_outer_join = "full outer join"
 
+    p_and = "and"
+    p_or = "or"
+    p_in = "in"
+
+    select_all = "*"
     comma = ","
     space = " "
 
@@ -19,6 +25,7 @@ class SqlBuilder:
         self.p_where = []
         self.p_groupby = []
         self.p_orderby = []
+        self.p_join = []
 
     def addParentheses(self, s: str):
         return f"({s})"
@@ -81,7 +88,22 @@ class SqlBuilder:
     def getOrderBy(self):
         return "order by {} ".format(self.get(self.p_orderby, self.comma))
     
-    def getSql(self, includeWhere: bool = False, includeGroupBy: bool = False, includeOrderBy: bool = False):
+    def setJoin(self, table: str, on: str, joinType: str):
+        assert(joinType in [self.inner_join, self.left_outer_join, self.right_outer_join, self.full_outer_join])
+        self.p_join.append([joinType, table, on])
+
+    def setJoin2(self, clause: list):
+        assert(len(clause) == 3)
+        self.setJoin(clause[0],clause[1],clause[2])
+    
+    def getJoin(self) -> str:
+        s = ""
+        for l in self.p_join:
+            s += "{} {} on {} ".format(l[0], l[1], l[2])
+        return s
+
+    
+    def getSql(self, includeWhere: bool = False, includeGroupBy: bool = False, includeOrderBy: bool = False, includeJoin: bool = False):
         assert(len(self.p_select) > 0 and len(self.p_from) > 0)
         def eval(clause: list, b: bool):
             if(len(clause) > 0 and b):
@@ -92,7 +114,34 @@ class SqlBuilder:
 
         return "{} {} {} {} {}".format(self.getSelect()
                               , self.getFrom()
+                              , self.getJoin() if eval(self.p_join, includeJoin) else blank
                               , self.getWhere() if eval(self.p_where, includeWhere) else blank
                               , self.getGroupBy() if eval(self.p_groupby, includeGroupBy) else blank
                               , self.getOrderBy() if eval(self.p_orderby, includeOrderBy) else blank
                               )
+    
+
+def generateAccessMethods(c: list):
+    s = ""
+    for i in c:
+        s += f"def get_{i.lower()}() -> str:"
+        s += ("\n")
+        s += (f"    return \"{i}\"")
+        s += ("\n")
+    
+    return s
+
+
+def main():
+    sql = SqlBuilder()
+    sql.setSelect2(["a.case_num" , "a.id" , "a.rank"])
+    sql.setFrom2(["salary_data a"])
+    sql.setWhere("a.case_num <= 100", sql.p_and)
+    sql.setWhere("a.id <= 100")
+
+    sql.setJoin("salary_data b", "a.case_num = b.case_num", sql.inner_join)
+    sql.setJoin2(["salary_data c", "a.case_num = c.case_num", sql.left_outer_join])
+    print(sql.getSql(includeWhere= True, includeJoin=True))
+
+if __name__ == "__main__":
+    main()
