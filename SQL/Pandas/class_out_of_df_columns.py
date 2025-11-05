@@ -1,7 +1,7 @@
-def createDfObject(df: DataFrame, componentName: str) -> None:
-    def indent(text: str, pad: int) -> str:
-        return (" " * pad) + text
+def indent(text: str, pad: int) -> str:
+    return (" " * pad) + text
 
+def createDfObject(df: DataFrame, componentName: str) -> None:
     default_pad_num : int = 4
 
     print("class {}:".format(componentName))
