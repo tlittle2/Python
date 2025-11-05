@@ -1,3 +1,6 @@
+import pandas as pd
+from pandas import DataFrame
+
 def indent(text: str, pad: int) -> str:
     return (" " * pad) + text
 
