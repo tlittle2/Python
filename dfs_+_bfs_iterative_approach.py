@@ -31,14 +31,14 @@ def dfs_iterative_traversal(graph, root) -> list[int]:
         #print(vis)
 
 def bfs_iterative(graph, root) -> list[int]:
-    graph_prechecks(graph)
+    graph_prechecks(graph, root)
 
     mstr_q = []
 
     mstr_q.append(root)
 
     for _ in range(mxN):
-        if len(mstr_q) == len(list(graph.keys())):
+        if len(mstr_q) == len(list(graph.keys())) -1:
             return mstr_q
         for node in mstr_q:
             for n in graph[node]:
