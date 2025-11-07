@@ -55,7 +55,7 @@ def bfs_iterative(graph, root) -> list[int]:
     mstr_q.append(root)
 
     for _ in range(mxN):
-        if len(mstr_q) == len(list(graph.keys())) -1:
+        if len(mstr_q) == len(graph.keys()):
             return mstr_q
         for node in mstr_q:
             for n in graph[node]:
