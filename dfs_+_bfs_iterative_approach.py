@@ -44,6 +44,14 @@ def bfs_iterative(graph, root) -> list[int]:
             for n in graph[node]:
                 mstr_q.append(n)
 
+def reverseConnections(graph: dict[int, list[int]]):
+    g = {}
+
+    for key,value in graph.items():
+        for v in value:
+            g[v] = [key] if v not in g else g[v].append(key)
+    return g
+    
 def main():
     g = {
         0 : [1,2,3],
@@ -64,6 +72,7 @@ def main():
 
     print(dfs_iterative_traversal(g,0))
     print(bfs_iterative(g, 0))
+    print(reverseConnections(g))
 
 if __name__ == "__main__":
     main()
