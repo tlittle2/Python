@@ -1,15 +1,32 @@
 mxN = 100
 
-def graph_prechecks(g):
+def reverseConnections(graph: dict[int, list[int]]):
+    g = {}
+
+    for key,value in graph.items():
+        for v in value:
+            g[v] = key
+    return g
+
+def has_cycles(g, root):
+    r = reverseConnections(g)
+    for k in r.keys():
+        if r[k] != root and r[r[k]] == k: #if a key in a key/value pair exists as a value for some other key, and we aren't currently processing the root, we have a cycle
+            return True
+    return False
+
+def graph_prechecks(g, root):
     assert 0 <= len(list(g.keys())) <= mxN, "Graph either has no data or is too big to traverse. Exiting"
 
     keys = set(g.keys())
     values = set(item for sublist in g.values() for item in sublist)
     assert values.difference(keys) != 0, "Invalid graph was potentially provided. Please investigate"
 
+    assert not has_cycles(g, root), "Graph has cycles. Cannot perform dfs or bfs. Exiting"
+
 
 def dfs_iterative_traversal(graph, root) -> list[int]:
-    graph_prechecks(graph)
+    graph_prechecks(graph, root)
 
     stk = []
     vis = {i : False for i in graph.keys()}
@@ -43,14 +60,6 @@ def bfs_iterative(graph, root) -> list[int]:
         for node in mstr_q:
             for n in graph[node]:
                 mstr_q.append(n)
-
-def reverseConnections(graph: dict[int, list[int]]):
-    g = {}
-
-    for key,value in graph.items():
-        for v in value:
-            g[v] = [key] if v not in g else g[v].append(key)
-    return g
     
 def main():
     g = {
