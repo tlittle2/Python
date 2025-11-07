@@ -5,33 +5,30 @@ def reverseConnections(graph: dict[int, list[int]]):
 
     for key,value in graph.items():
         for v in value:
-            g[v] = key
+            if v not in g.keys():
+                g[v] = [key]
+            else:
+                g[v].append(key)
     return g
 
-def has_cycles(g, root):
-    r = reverseConnections(g)
-    for k in r.keys():
-        if r[k] != root and r[r[k]] == k: #if a key in a key/value pair exists as a value for some other key, and we aren't currently processing the root, we have a cycle
-            return True
-    return False
-
-def graph_prechecks(g, root):
+def graph_prechecks(g):
     assert 0 <= len(list(g.keys())) <= mxN, "Graph either has no data or is too big to traverse. Exiting"
 
     keys = set(g.keys())
     values = set(item for sublist in g.values() for item in sublist)
     assert values.difference(keys) != 0, "Invalid graph was potentially provided. Please investigate"
 
-    assert not has_cycles(g, root), "Graph has cycles. Cannot perform dfs or bfs. Exiting"
+def create_visited_map(g: dict[int, list[int]]):
+    return {i : False for i in g.keys()}
 
 
 def dfs_iterative_traversal(graph, root) -> list[int]:
-    graph_prechecks(graph, root)
+    graph_prechecks(graph)
+    vis = create_visited_map(graph)
+
+    return_value = []
 
     stk = []
-    vis = {i : False for i in graph.keys()}
-    return_value = []
-    
     stk.append(root)
 
     for _ in range(mxN):
@@ -48,10 +45,10 @@ def dfs_iterative_traversal(graph, root) -> list[int]:
         #print(vis)
 
 def bfs_iterative(graph, root) -> list[int]:
-    graph_prechecks(graph, root)
+    graph_prechecks(graph)
+    vis = create_visited_map(graph)
 
     mstr_q = []
-
     mstr_q.append(root)
 
     for _ in range(mxN):
@@ -59,7 +56,10 @@ def bfs_iterative(graph, root) -> list[int]:
             return mstr_q
         for node in mstr_q:
             for n in graph[node]:
-                mstr_q.append(n)
+                if not vis[n]:
+                    mstr_q.append(n)
+                    vis[n] = True
+
     
 def main():
     g = {
