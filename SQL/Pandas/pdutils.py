@@ -1,8 +1,15 @@
-from pandas import DataFrame
+from pandas import DataFrame, Series
+from datetime import datetime
+import numpy as np
 
-def is_between(val: int, lower_bound: int, upper_bound: int) -> bool:
-    return val >= lower_bound and val <= upper_bound
+def set_guid(df: DataFrame, app_id: str):
+    seq_nums = np.arange(1, len(df) + 1).astype(str)
+    prefix = datetime.today().date().strftime("%Y%m%d")
 
+    for num in range(len(seq_nums)):
+        seq_nums[num] = prefix + app_id + str.rjust(seq_nums[num], 12, '0')
+
+    return Series(seq_nums)
 
 #=======================================================================
 def indent(text: str, pad: int) -> str:
